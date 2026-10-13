@@ -15,6 +15,12 @@ describe('defaultRules', () => {
     ['src/foo.test.ts', 'tests'],
     ['src/__tests__/foo.ts', 'tests'],
     ['test/foo.ts', 'tests'],
+    ['pkg/server_test.go', 'tests'],
+    ['app/test_views.py', 'tests'],
+    ['src/Button.stories.ts', 'tests'],
+    ['src/__snapshots__/foo.ts.snap', 'tests'],
+    ['e2e/login.ts', 'tests'],
+    ['src/fixtures/pr.json', 'tests'],
     ['README.md', 'docs'],
     ['docs/guide.mdx', 'docs'],
     ['package.json', 'deps'],
@@ -27,6 +33,8 @@ describe('defaultRules', () => {
     ['vite.config.ts', 'config'],
     ['dist/bundle.js', 'generated'],
     ['schema.generated.ts', 'generated'],
+    ['server/apps/api/drizzle/meta/0031_snapshot.json', 'generated'],
+    ['server/apps/api/drizzle/meta/_journal.json', 'generated'],
     ['src/index.ts', 'code'],
   ])('files %s under the %s rule', (path, expected) => {
     expect(ruleKey(path)).toBe(expected)

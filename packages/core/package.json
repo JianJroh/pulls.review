@@ -1,7 +1,7 @@
 {
   "name": "@pulls.review/core",
   "type": "module",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "Fetch, parse, group and summarize pull request diffs - the runtime-agnostic core of pulls.review.",
   "author": "Anthony Fu <hi@antfu.me>",
   "license": "MIT",

@@ -43,6 +43,7 @@ export function injectGithubPageStyles(): void {
 .${PANEL_OPEN_CLASS} [id="diff-comparison-viewer-container"] { margin-left: 0 !important; }
 .${PANEL_OPEN_CLASS} [data-component="PageHeader"] [data-component="TitleArea"] { margin-left: 0 !important; }
 .${PANEL_OPEN_CLASS} :has(> [id="pr-conversation-sidebar"]) { display: none !important; }
+.${PANEL_OPEN_CLASS} [data-component="SplitPageLayout.Pane"]:has(> [data-testid="sticky-sidebar"]) { display: none !important; }
 `
   window.document.head.appendChild(style)
 }
@@ -58,6 +59,30 @@ export function setPanelOpenWidth(width: number | undefined): void {
   const html = window.document.documentElement
   html.style.width = remaining
   html.style.maxWidth = remaining
+}
+
+/**
+ * GitHub navigates without page loads in two ways: Turbo, which fires `turbo:load`,
+ * and React Router on its React pages (PR list, "Files changed", repo overview),
+ * which fires nothing at all. Rather than chase both, watch the page itself - no
+ * navigation lands without re-rendering it, and both update the URL before they do.
+ * `popstate` is only a shortcut for back/forward, which the observer would catch too.
+ */
+export function watchLocation(onChange: (pathname: string) => void): () => void {
+  let last = location.pathname
+  function check() {
+    if (location.pathname === last)
+      return
+    last = location.pathname
+    onChange(last)
+  }
+  const observer = new MutationObserver(check)
+  observer.observe(window.document.documentElement, { childList: true, subtree: true })
+  window.addEventListener('popstate', check)
+  return () => {
+    observer.disconnect()
+    window.removeEventListener('popstate', check)
+  }
 }
 
 export interface ToggleTabState {

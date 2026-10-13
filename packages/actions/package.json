@@ -1,7 +1,7 @@
 {
   "name": "@pulls.review/actions",
   "type": "module",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "Analyze a GitHub pull request with pulls.review and post the grouped summary as a PR comment.",
   "author": "Anthony Fu <hi@antfu.me>",
   "license": "MIT",

@@ -23,6 +23,7 @@ import { countGroupFiles, countGroupStats, groupIsCritical } from './group-utils
 import GroupCategoryIcon from './GroupCategoryIcon.vue'
 
 const props = defineProps<{
+  document?: Document | ShadowRoot
   store: DiffsStore
   group: ResolvedGroupWithChildren
   collapsed: boolean
@@ -78,7 +79,7 @@ function scrollToChild(key: string) {
 
 function navigateToParent() {
   if (props.parentKey)
-    document.getElementById(`group-${props.parentKey}`)?.scrollIntoView({ behavior: scrollBehavior.value, block: 'start' })
+    (props.document ?? document).getElementById(`group-${props.parentKey}`)?.scrollIntoView({ behavior: scrollBehavior.value, block: 'start' })
 }
 
 const progress = computed(() => totalFiles.value === 0 ? 1 : reviewedCount.value / totalFiles.value)
@@ -117,7 +118,7 @@ function setFileDiffRef(sha: string, el: InstanceType<typeof FileDiff> | null) {
 function navigateToFile(sha: string) {
   fileDiffRefs.get(sha)?.expand()
   nextTick(() => {
-    scrollToFile(document, sha)
+    scrollToFile(props.document ?? document, sha)
   })
 }
 </script>
@@ -286,6 +287,7 @@ function navigateToFile(sha: string) {
         v-for="child in group.children"
         :key="child.key"
         :ref="el => setChildEl(child.key, el as ComponentPublicInstance | null)"
+        :document="document"
         :store="store"
         :group="{ ...child, children: [] }"
         :collapsed="collapsedChildren.has(child.key)"

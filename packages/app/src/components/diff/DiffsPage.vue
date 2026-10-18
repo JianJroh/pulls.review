@@ -331,6 +331,7 @@ function refreshFromBanner() {
             <DiffGroup
               v-for="group in groups"
               :key="group.key"
+              :document="document"
               :store="store!"
               :group="group"
               :collapsed="collapsedGroups.has(group.key)"

@@ -62,7 +62,14 @@ export function createUnoConfig() {
       },
       { 'chat-markdown': chatMarkdown },
       { 'description-markdown': chatMarkdown },
-      { 'markdown-mermaid': `flex justify-center overflow-x-auto ${descendant('svg', 'max-w-full h-auto')}` },
+      {
+        'markdown-mermaid': [
+          'flex justify-center overflow-x-auto',
+          descendant('svg', 'max-w-full h-auto'),
+          '[--mermaid-background:#ffffff] dark:[--mermaid-background:#121212]',
+          '[--mermaid-foreground:#262626] dark:[--mermaid-foreground:#e5e5e5]',
+        ].join(' '),
+      },
       // Overrides
       {
         'bg-active': 'bg-[#8881]',

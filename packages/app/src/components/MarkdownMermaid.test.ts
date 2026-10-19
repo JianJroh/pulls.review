@@ -17,6 +17,13 @@ it('keeps the source as a code block when the diagram cannot be rendered', () =>
   expect(wrapper.find('pre').text()).toBe(content)
 })
 
+it('reads its palette from CSS variables so the SVG survives a theme flip', () => {
+  const wrapper = mount(MarkdownMermaid, { props: { content: 'graph LR\n  A --> B' } })
+
+  expect(wrapper.html()).toContain('--bg:var(--mermaid-background)')
+  expect(wrapper.html()).toContain('--fg:var(--mermaid-foreground)')
+})
+
 it('does not turn markup in labels into elements', () => {
   const wrapper = mount(MarkdownMermaid, {
     props: { content: 'graph LR\n  A["<img src=x onerror=alert(1)><script>alert(1)</script>"] --> B' },
